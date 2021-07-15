@@ -1,0 +1,10 @@
+{
+    "jsonrpc":"2.0",
+    "id":1,
+    "method":"author_insertKey",
+    "params":[
+        "gran",
+        "symbol retreat reduce people slush sunny world sadness garbage surprise woman demand",
+        "0x028c01b57f9fffd0d59afd96a272bc54f1871b22cbedbaf73bab1a18b2785013"
+    ]
+}

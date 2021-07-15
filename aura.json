@@ -1,0 +1,10 @@
+{
+    "jsonrpc":"2.0",
+    "id":1,
+    "method":"author_insertKey",
+    "params":[
+        "aura",
+        "symbol retreat reduce people slush sunny world sadness garbage surprise woman demand",
+        "0xda21edbd7791eaca395dd6b75c047f266c9dbccc6da27d60ac3f16826e502b60"
+    ]
+}
