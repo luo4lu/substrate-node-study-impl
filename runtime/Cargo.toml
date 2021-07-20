@@ -58,6 +58,12 @@ git = 'https://github.com/paritytech/substrate.git'
 rev = 'd6c33e7ec313f9bd5e319dc0a5a3ace5543f9617'
 version = '3.0.0'
 
+[dependencies.pallet-nicks]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+rev = 'd6c33e7ec313f9bd5e319dc0a5a3ace5543f9617'
+version = '3.0.0'
+
 [dependencies.pallet-grandpa]
 default-features = false
 git = 'https://github.com/paritytech/substrate.git'
@@ -76,9 +82,29 @@ git = 'https://github.com/paritytech/substrate.git'
 rev = 'd6c33e7ec313f9bd5e319dc0a5a3ace5543f9617'
 version = '3.0.0'
 
+[dependencies.pallet-evm]
+default-features = false
+path = '../pallets/evm'
+version = '5.0.0-dev'
+
+[dependencies.pallet-ethereum]
+default-features = false
+path = '../pallets/ethereum'
+version = '3.0.0-dev'
+
+[dependencies.pallet-dynamic-fee]
+default-features = false
+path = '../pallets/dynamic-fee'
+version = '3.0.0-dev'
+
 [dependencies.pallet-template]
 default-features = false
 path = '../pallets/template'
+version = '3.0.0'
+
+[dependencies.test-pallet]
+default-features = false
+path = '../pallets/test-pallet'
 version = '3.0.0'
 
 [dependencies.pallet-timestamp]
@@ -94,6 +120,18 @@ rev = 'd6c33e7ec313f9bd5e319dc0a5a3ace5543f9617'
 version = '3.0.0'
 
 [dependencies.pallet-transaction-payment-rpc-runtime-api]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+rev = 'd6c33e7ec313f9bd5e319dc0a5a3ace5543f9617'
+version = '3.0.0'
+
+[dependencies.pallet-scheduler]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+rev = 'd6c33e7ec313f9bd5e319dc0a5a3ace5543f9617'
+version = '3.0.0'
+
+[dependencies.pallet-node-authorization]
 default-features = false
 git = 'https://github.com/paritytech/substrate.git'
 rev = 'd6c33e7ec313f9bd5e319dc0a5a3ace5543f9617'
@@ -208,6 +246,13 @@ std = [
     'pallet-timestamp/std',
     'pallet-transaction-payment-rpc-runtime-api/std',
     'pallet-transaction-payment/std',
+    'pallet-nicks/std',
+    'test-pallet/std',
+    'pallet-scheduler/std',
+    'pallet-node-authorization/std',
+    'pallet-evm/std',
+    'pallet-ethereum/std',
+    'pallet-dynamic-fee/std',
     'sp-api/std',
     'sp-block-builder/std',
     'sp-consensus-aura/std',
