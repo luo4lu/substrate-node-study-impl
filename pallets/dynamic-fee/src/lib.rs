@@ -19,12 +19,12 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
 use codec::{Encode, Decode};
-use sp_std::{result, cmp::{min, max}};
+use sp_std::{cmp::{min, max}};
 use sp_runtime::RuntimeDebug;
 use sp_core::U256;
-use sp_inherents::{InherentIdentifier, InherentData, ProvideInherent, IsFatalError};
-#[cfg(feature = "std")]
-use sp_inherents::ProvideInherentData;
+use sp_inherents::{InherentIdentifier, IsFatalError};
+//#[cfg(feature = "std")]
+//use sp_inherents::CheckInherentsResult;
 use frame_support::{
 	decl_module, decl_storage,
 	traits::Get, weights::Weight,
@@ -37,7 +37,7 @@ pub trait Config: frame_system::Config {
 }
 
 decl_storage! {
-	trait Store for Module<T: Config> as DynamicFee {
+	trait Store for Pallet<T: Config> as DynamicFee {
 		MinGasPrice get(fn min_gas_price) config(): U256;
 		TargetMinGasPrice: Option<U256>;
 	}
@@ -79,7 +79,7 @@ decl_module! {
 	}
 }
 
-impl<T: Config> pallet_evm::FeeCalculator for Module<T> {
+impl<T: Config> pallet_evm::FeeCalculator for Pallet<T> {
 	fn min_gas_price() -> U256 {
 		MinGasPrice::get()
 	}
@@ -113,12 +113,8 @@ pub type InherentType = U256;
 #[cfg(feature = "std")]
 pub struct InherentDataProvider(pub InherentType);
 
-#[cfg(feature = "std")]
-impl ProvideInherentData for InherentDataProvider {
-	fn inherent_identifier(&self) -> &'static InherentIdentifier {
-		&INHERENT_IDENTIFIER
-	}
-
+/*#[async_trait::async_trait]
+impl sp_inherents::InherentDataProvider for InherentDataProvider {
 	fn provide_inherent_data(
 		&self,
 		inherent_data: &mut InherentData
@@ -126,12 +122,13 @@ impl ProvideInherentData for InherentDataProvider {
 		inherent_data.put_data(INHERENT_IDENTIFIER, &self.0)
 	}
 
-	fn error_to_string(&self, error: &[u8]) -> Option<String> {
-		InherentError::try_from(&INHERENT_IDENTIFIER, error).map(|e| format!("{:?}", e))
+	async fn try_handle_error(&self, _: &InherentIdentifier, error: &[u8]) -> Option<Result<(), Error>> {
+		Some(Err(Error::Application(Box::from(format!("{:?}", error)))))
+		//InherentError::try_from(&INHERENT_IDENTIFIER, error).map(|e| format!("{:?}", e))
 	}
 }
 
-impl<T: Config> ProvideInherent for Module<T> {
+impl<T: Config> CheckInherentsResult for Pallet<T> {
 	type Call = Call<T>;
 	type Error = InherentError;
 	const INHERENT_IDENTIFIER: InherentIdentifier = INHERENT_IDENTIFIER;
@@ -145,4 +142,4 @@ impl<T: Config> ProvideInherent for Module<T> {
 	fn check_inherent(_call: &Self::Call, _data: &InherentData) -> result::Result<(), Self::Error> {
 		Ok(())
 	}
-}
+}*/

@@ -321,7 +321,7 @@ impl<F: FindAuthor<u32>> FindAuthor<H160> for FindAuthorTruncated<F>
 	{
 		if let Some(author_index) = F::find_author(digests) {
 			let authority_id = Aura::authorities()[author_index as usize].clone();
-			return Some(H160::from(&authority_id.to_raw_vec()[4..24]));
+			return Some(H160::from_low_u64_be(22));
 		}
 		None
 	}
@@ -332,7 +332,7 @@ parameter_types! {
 	pub BlcokGasLimit: U256 = U256::from(u32::max_value());
 }
 impl pallet_evm::Config for Runtime {
-	type FeeCalculator = pallet_dynamic_fee::Module<Self>;
+	type FeeCalculator = pallet_dynamic_fee::Pallet<Self>;
 	type GasWeightMapping = ();
 	type BlockHashMapping = pallet_ethereum::EthereumBlockHashMapping;
 	type CallOrigin = EnsureAddressTruncated;
@@ -419,7 +419,7 @@ construct_runtime!(
 		NodeAuthorization: pallet_node_authorization::{Pallet, Call, Storage, Event<T>, Config<T>},
 		Ethereum: pallet_ethereum::{Pallet, Call, Storage, Event, Config, ValidateUnsigned},
 		EVM: pallet_evm::{Pallet, Config, Call, Storage, Event<T>},
-		DynamicFee: pallet_dynamic_fee::{Pallet, Call, Storage, Config, Inherent},
+		DynamicFee: pallet_dynamic_fee::{Pallet, Call, Storage, Config},
 	}
 );
 

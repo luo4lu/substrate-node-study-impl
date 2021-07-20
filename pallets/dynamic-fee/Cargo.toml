@@ -58,6 +58,10 @@ git = 'https://github.com/paritytech/substrate.git'
 rev = 'd6c33e7ec313f9bd5e319dc0a5a3ace5543f9617'
 version = '3.0.0'
 
+[dependencies.async-trait]
+optional = true
+version = '0.1.30'
+
 [features]
 default = ["std"]
 std = [
@@ -70,4 +74,5 @@ std = [
 	"frame-system/std",
 	"frame-support/std",
 	"pallet-evm/std",
+	"async-trait",
 ]
