@@ -1,0 +1,55 @@
+[package]
+name = "fp-evm"
+version = "2.0.0"
+license = "Apache-2.0"
+authors = ["Parity Technologies <admin@parity.io>"]
+edition = "2018"
+homepage = "https://substrate.dev"
+repository = "https://github.com/paritytech/frontier/"
+description = "Primitive EVM abstractions for Substrate."
+documentation = "https://docs.rs/sp-evm"
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies.sp-std]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sp-core]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.serde]
+features = ['derive']
+optional = true
+version = '1.0.101'
+
+[dependencies.codec]
+default-features = false
+features = ['derive']
+package = 'parity-scale-codec'
+version = '2.0.0'
+
+[dependencies.evm]
+default-features = false
+features = ['with-codec']
+version = '0.27.0'
+
+[dependencies.impl-trait-for-tuples]
+version = '0.1'
+
+[features]
+default = ["std"]
+std = [
+	"sp-core/std",
+	"sp-std/std",
+	"serde",
+	"codec/std",
+	"evm/std",
+	"evm/with-serde",
+]

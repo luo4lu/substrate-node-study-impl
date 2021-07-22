@@ -1,0 +1,147 @@
+[package]
+name = "pallet-ethereum"
+version = "3.0.0-dev"
+authors = ["Parity Technologies <admin@parity.io>"]
+edition = "2018"
+description = "Ethereum compatibility full block processing emulation pallet for Substrate."
+license = "Apache-2.0"
+
+[dependencies.rustc-hex]
+default-features = false
+version = '2.1.0'
+
+[dependencies.serde]
+features = ['derive']
+optional = true
+version = '1.0.101'
+
+[dependencies.codec]
+default-features = false
+features = ['derive']
+package = 'parity-scale-codec'
+version = '2.0.0'
+
+[dependencies.frame-support]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.frame-system]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.pallet-timestamp]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.pallet-balances]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.pallet-evm]
+default-features = false
+path = '../evm'
+version = '5.0.0-dev'
+
+[dependencies.sp-runtime]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sp-std]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sp-io]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.fp-evm]
+default-features = false
+path = '../../primitives/evm'
+version = '2.0.0'
+
+[dependencies.evm]
+default-features = false
+features = ['with-codec']
+version = '0.27.0'
+
+[dependencies.ethereum]
+default-features = false
+features = ['with-codec']
+version = '0.7.1'
+
+[dependencies.ethereum-types]
+default-features = false
+version = '0.11'
+
+[dependencies.rlp]
+default-features = false
+version = '0.5'
+[dependencies.sha3]
+default-features = false
+version = '0.8'
+
+[dependencies.libsecp256k1]
+default-features = false
+features = ['static-context', 'hmac']
+version = '0.5'
+
+[dependencies.fp-consensus]
+default-features = false
+path = '../../primitives/consensus'
+version = '1.0.0'
+
+[dependencies.fp-rpc]
+default-features = false
+path = '../../primitives/rpc'
+version = '2.0.0'
+
+[dependencies.fp-storage]
+default-features = false
+path = '../../primitives/storage'
+version = '1.0.1'
+
+[dependencies.sp-core]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[features]
+default = ["std"]
+std = [
+	"serde",
+	"rustc-hex/std",
+	"codec/std",
+	"sp-runtime/std",
+	"frame-support/std",
+	"frame-system/std",
+	"pallet-balances/std",
+	"pallet-timestamp/std",
+	"pallet-evm/std",
+	"sp-io/std",
+	"sp-std/std",
+	"fp-evm/std",
+	"ethereum/std",
+	"ethereum-types/std",
+	"rlp/std",
+	"sha3/std",
+	"libsecp256k1/std",
+	"fp-consensus/std",
+	"fp-rpc/std",
+	"fp-storage/std",
+	"evm/std",
+]

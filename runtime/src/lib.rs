@@ -10,7 +10,7 @@ use pallet_grandpa::fg_primitives;
 use pallet_grandpa::{AuthorityId as GrandpaId, AuthorityList as GrandpaAuthorityList};
 use sp_api::impl_runtime_apis;
 use sp_consensus_aura::sr25519::AuthorityId as AuraId;
-use sp_core::{crypto::KeyTypeId, OpaqueMetadata};
+use sp_core::{crypto::KeyTypeId, OpaqueMetadata, U256, H160, H256};
 use sp_runtime::traits::{
     AccountIdLookup, BlakeTwo256, Block as BlockT, IdentifyAccount, NumberFor, Verify,
 };
@@ -19,26 +19,31 @@ use sp_runtime::{
     transaction_validity::{TransactionSource, TransactionValidity},
     ApplyExtrinsicResult, MultiSignature,
 };
-use sp_std::prelude::*;
+use sp_std::{prelude::*, marker::PhantomData};
 #[cfg(feature = "std")]
 use sp_version::NativeVersion;
 use sp_version::RuntimeVersion;
+use sp_core::crypto::Public;
 
 // A few exports that help ease life for downstream crates.
 pub use frame_support::{
     construct_runtime, parameter_types,
-    traits::{KeyOwnerProofSystem, Randomness},
+    traits::{KeyOwnerProofSystem, Randomness, FindAuthor},
     weights::{
         constants::{BlockExecutionWeight, ExtrinsicBaseWeight, RocksDbWeight, WEIGHT_PER_SECOND},
         IdentityFee, Weight,
     },
-    StorageValue,
+    StorageValue, ConsensusEngineId,
 };
 use frame_system::EnsureRoot;
 pub use pallet_balances::Call as BalancesCall;
 use pallet_contracts::{weights::WeightInfo, Schedule};
 pub use pallet_timestamp::Call as TimestampCall;
 use pallet_transaction_payment::CurrencyAdapter;
+use pallet_evm::{
+    Account as EVMAccount, FeeCalculator, HashedAddressMapping, EnsureAddressTruncated, Runner,
+};
+use pallet_ethereum::{Transaction as EthereumTransaction, Call::transact};
 #[cfg(any(feature = "std", test))]
 pub use sp_runtime::BuildStorage;
 pub use sp_runtime::{Perbill, Permill};
@@ -282,6 +287,19 @@ impl pallet_sudo::Config for Runtime {
     type Call = Call;
 }
 
+pub struct FindAuthorTruncated<F>(PhantomData<F>);
+impl<F: FindAuthor<u32>> FindAuthor<H160> for FindAuthorTruncated<F> {
+    fn find_author<'a, I>(digests: I) -> Option<H160> where
+        I: 'a+IntoIterator<Item = (ConsensusEngineId, &'a[u8])>
+    {
+        if let Some(author_index) = F::find_author(digests) {
+            let authority_id = Aura::authorities()[author_index as usize].clone();
+            return Some(H160::from_slice(&authority_id.to_raw_vec()[4..24]));
+        }
+        None
+    }
+}
+
 /// Configure the pallet-template in pallets/template.
 impl pallet_template::Config for Runtime {
     type Event = Event;
@@ -400,6 +418,40 @@ impl pallet_contracts::Config for Runtime {
     type CallStack = [pallet_contracts::Frame<Self>; 31];
     //type MaxCodeSize = MaxCodeSize;
 }
+
+//add evm pallet
+parameter_types! {
+    pub const ChainId: u64 = 42;
+    pub BlockGasLimit: U256 = U256::from(u32::max_value());
+}
+impl pallet_evm::Config for Runtime {
+    type FeeCalculator = pallet_dynamic_fee::Pallet<Self>;
+    type GasWeightMapping = ();
+    type BlockHashMapping = pallet_ethereum::EthereumBlockHashMapping;
+    type CallOrigin = pallet_evm::EnsureAddressTruncated;
+    type WithdrawOrigin = pallet_evm::EnsureAddressTruncated;
+    type AddressMapping = pallet_evm::HashedAddressMapping<BlakeTwo256>;
+    type Currency = Balances;
+    type Event = Event;
+    type Runner = pallet_evm::runner::stack::Runner<Self>;
+    type Precompiles = ();
+    type ChainId = ChainId;
+    type BlockGasLimit = BlockGasLimit;
+    type OnChargeTransaction = ();
+    type FindAuthor = FindAuthorTruncated<Aura>;
+}
+
+impl pallet_ethereum::Config for Runtime {
+    type Event = Event;
+    type StateRoot = pallet_ethereum::IntermediateStateRoot;
+}
+
+frame_support::parameter_types! {
+    pub BoundDivision: U256 = U256::from(1024);
+}
+impl pallet_dynamic_fee::Config for Runtime {
+    type MinGasPriceBoundDivisor = BoundDivision;
+}
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
     pub enum Runtime where
@@ -422,6 +474,9 @@ construct_runtime!(
         Scheduler: pallet_scheduler::{Pallet, Call, Storage, Event<T>},
         NodeAuthorization: pallet_node_authorization::{Pallet, Call, Storage, Event<T>, Config<T>},
         Contracts: pallet_contracts::{Pallet, Call, Storage, Event<T>},
+        Ethereum: pallet_ethereum::{Pallet, Config, Call, Storage, Event, ValidateUnsigned},
+        EVM: pallet_evm::{Pallet, Config, Call, Storage, Event<T>},
+        DynamicFee: pallet_dynamic_fee::{Pallet, Call, Storage, Config},
     }
 );
 

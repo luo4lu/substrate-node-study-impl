@@ -49,6 +49,9 @@ std = [
     'pallet-contracts/std',
     'pallet-contracts-primitives/std',
     'pallet-contracts-rpc-runtime-api/std',
+    'pallet-evm/std',
+    'pallet-dynamic-fee/std',
+    'pallet-ethereum/std',
     'sp-api/std',
     'sp-block-builder/std',
     'sp-consensus-aura/std',
@@ -120,6 +123,18 @@ default-features = false
 git = 'https://github.com/paritytech/substrate.git'
 tag = 'monthly-2021-07'
 version = '3.0.0'
+
+[dependencies.pallet-evm]
+default-features = false
+path = '../pallets/evm'
+
+[dependencies.pallet-dynamic-fee]
+default-features = false
+path = '../pallets/dynamic-fee'
+
+[dependencies.pallet-ethereum]
+default-features = false
+path = '../pallets/ethereum'
 
 [dependencies.pallet-nicks]
 default-features = false
