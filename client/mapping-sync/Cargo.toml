@@ -1,0 +1,55 @@
+[package]
+name = "fc-mapping-sync"
+version = "2.0.0-dev"
+authors = ["Parity Technologies <admin@parity.io>"]
+edition = "2018"
+description = "Mapping sync logic for Frontier."
+license = "GPL-3.0-or-later WITH Classpath-exception-2.0"
+
+[dependencies.sp-runtime]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sp-blockchain]
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sc-client-api]
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sp-api]
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.fp-consensus]
+path = '../../primitives/consensus'
+version = '1.0.0'
+
+[dependencies.fc-consensus]
+path = '../consensus'
+version = '2.0.0'
+
+[dependencies.fc-db]
+path = '../db'
+version = '1.0.0'
+
+[dependencies.fp-rpc]
+path = '../../primitives/rpc'
+version = '2.1.0'
+
+[dependencies.futures]
+features = ['compat']
+version = '0.3.1'
+
+[dependencies.futures-timer]
+version = '3.0.1'
+
+[dependencies.log]
+version = '0.4.8'
+

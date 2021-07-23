@@ -26,16 +26,16 @@ structopt = '0.3.8'
 bs58 = "0.4.0"
 
 [dependencies.pallet-evm]
-default-features = false
 path = '../pallets/evm'
+version = '5.0.0-dev'
 
 [dependencies.pallet-dynamic-fee]
-default-features = false
 path = '../pallets/dynamic-fee'
+version = '3.0.0-dev'
 
 [dependencies.pallet-ethereum]
-default-features = false
 path = '../pallets/ethereum'
+version = '3.0.0-dev'
 
 [dependencies.pallet-contracts]
 git = 'https://github.com/paritytech/substrate.git'
@@ -93,7 +93,6 @@ tag = 'monthly-2021-07'
 version = '0.9.0'
 
 [dependencies.sc-executor]
-features = ['wasmtime']
 git = 'https://github.com/paritytech/substrate.git'
 tag = 'monthly-2021-07'
 version = '0.9.0'
@@ -154,6 +153,11 @@ git = 'https://github.com/paritytech/substrate.git'
 tag = 'monthly-2021-07'
 version = '0.9.0'
 
+[dependencies.sc-consensus-manual-seal]
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '0.9.0'
+
 [dependencies.sp-consensus-aura]
 git = 'https://github.com/paritytech/substrate.git'
 tag = 'monthly-2021-07'
@@ -195,8 +199,12 @@ tag = 'monthly-2021-07'
 version = '3.0.0'
 
 [dependencies.fc-consensus]
-git = 'https://github.com/paritytech/frontier.git'
+path = '../client/consensus'
 version = '2.0.0'
+
+[dependencies.fc-db]
+path = '../client/db'
+version = '1.0.0'
 
 [[bin]]
 name = 'node-template'

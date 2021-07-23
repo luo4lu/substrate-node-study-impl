@@ -1,0 +1,144 @@
+[package]
+name = "fc-rpc"
+version = "2.0.0-dev"
+authors = ["Parity Technologies <admin@parity.io>"]
+edition = "2018"
+description = "Ethereum RPC (web3) compatibility layer for Substrate."
+license = "GPL-3.0-or-later WITH Classpath-exception-2.0"
+
+[dependencies]
+jsonrpc-core = "15.0.0"
+jsonrpc-derive = "14.0.3"
+jsonrpc-core-client = "14.0.3"
+jsonrpc-pubsub = "15.0.0"
+log = "0.4.8"
+ethereum-types = "0.11.0"
+evm = "0.27.0"
+
+[dependencies.fc-consensus]
+path = '../consensus'
+version = '2.0.0-dev'
+
+[dependencies.fc-db]
+path = '../db'
+version = '1.0.0'
+
+[dependencies.fc-rpc-core]
+path = '../rpc-core'
+version = '1.1.0-dev'
+
+[dependencies.fp-consensus]
+path = '../../primitives/consensus'
+version = '1.0.0'
+
+[dependencies.fp-rpc]
+path = '../../primitives/rpc'
+version = '2.1.0'
+
+[dependencies.fp-storage]
+path = '../../primitives/storage'
+version = '1.0.1-dev'
+
+[dependencies.sp-io]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sp-runtime]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sp-api]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sp-transaction-pool]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sp-storage]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sp-blockchain]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sc-client-api]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sc-rpc]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sc-network]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '0.9.0'
+
+[dependencies.sc-service]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '0.9.0'
+
+[dependencies.pallet-evm]
+path = '../../pallets/evm'
+version = '5.0.0-dev'
+
+[dependencies.fp-evm]
+path = '../../primitives/evm'
+version = '2.0.0-dev'
+
+[dependencies.pallet-ethereum]
+path = '../../pallets/ethereum'
+version = '3.0.0-dev'
+
+[dependencies.ethereum]
+features = ['with-codec']
+version = '0.7.1'
+
+[dependencies.codec]
+features = ['derive']
+package = 'parity-scale-codec'
+version = '2.0.0'
+
+[dependencies.rlp]
+version = '0.5'
+
+[dependencies.futures]
+features = ['compat']
+version = '0.3.1'
+
+[dependencies.sha3]
+version = '0.8'
+
+[dependencies.rustc-hex]
+default-features = false
+version = '2.1.0'
+
+[dependencies.libsecp256k1]
+version = "0.3"
+
+[dependencies.rand]
+version = "0.7"
+
+[features]
+rpc_binary_search_estimate = []

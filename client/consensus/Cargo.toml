@@ -1,0 +1,90 @@
+[package]
+name = "fc-consensus"
+version = "2.0.0"
+authors = ["Parity Technologies <admin@parity.io>"]
+description = "Frontier consensus for substrate"
+edition = "2018"
+license = "GPL-3.0-or-later WITH Classpath-exception-2.0"
+repository = "https://github.com/paritytech/frontier/"
+
+[dependencies.prometheus-endpoint]
+package = 'substrate-prometheus-endpoint'
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '0.9.0'
+
+[dependencies.derive_more]
+version = '0.99.2'
+
+[dependencies.sp-timestamp]
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.futures]
+features = ['compat']
+version = '0.3.1'
+
+[dependencies.log]
+version = '0.4.8'
+
+[dependencies.sp-consensus]
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '0.9.0'
+
+[dependencies.sp-inherents]
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.fc-db]
+path = '../db'
+version = '1.0.0'
+
+[dependencies.fp-rpc]
+path = '../../primitives/rpc'
+version = '2.1.0'
+
+[dependencies.fp-consensus]
+path = '../../primitives/consensus'
+version = '1.0.0'
+
+[dependencies.sp-block-builder]
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sc-client-api]
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sp-api]
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sp-blockchain]
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sp-runtime]
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.sp-core]
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '3.0.0'
+
+[dependencies.codec]
+default-features = false
+features = ['derive']
+package = 'parity-scale-codec'
+version = '2.0.0'
+
+[dependencies.async-trait]
+version = '0.1.42'

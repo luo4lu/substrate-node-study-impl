@@ -4,6 +4,7 @@ members = [
     'pallets/*',
     'runtime',
     'primitives/*',
+    'client/*',
 ]
 [profile.release]
 panic = 'unwind'

@@ -22,7 +22,7 @@ use codec::{Encode, Decode};
 use sp_std::{cmp::{min, max}};
 use sp_runtime::RuntimeDebug;
 use sp_core::U256;
-use sp_inherents::{InherentIdentifier, IsFatalError, InherentData};
+use sp_inherents::{InherentIdentifier, IsFatalError, /*InherentData*/};
 //#[cfg(feature = "std")]
 //use sp_inherents::CheckInherentsResult;
 use frame_support::{
@@ -122,8 +122,11 @@ impl sp_inherents::InherentDataProvider for InherentDataProvider {
 		inherent_data.put_data(INHERENT_IDENTIFIER, &self.0)
 	}
 
-	async fn try_handle_error(&self, _: &InherentIdentifier, error: &[u8]) -> Option<Result<(), sp_inherents::Error>> {
-		Some(Err(sp_inherents::Error::Application(Box::from(format!("{:?}", error)))))
+	async fn try_handle_error(&self, identifier: &InherentIdentifier, mut error: &[u8]) -> Option<Result<(), sp_inherents::Error>> {
+		if *identifier != INHERENT_IDENTIFIER {
+			return None;
+		}
+		Some(Err(sp_inherents::Error::Application(Box::from(String::decode(&mut error).ok()?))))
 	}
 }
 

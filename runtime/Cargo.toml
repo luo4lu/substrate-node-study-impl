@@ -129,14 +129,17 @@ version = '3.0.0'
 [dependencies.pallet-evm]
 default-features = false
 path = '../pallets/evm'
+version = '5.0.0-dev'
 
 [dependencies.pallet-dynamic-fee]
 default-features = false
 path = '../pallets/dynamic-fee'
+version = '3.0.0-dev'
 
 [dependencies.pallet-ethereum]
 default-features = false
 path = '../pallets/ethereum'
+version = '3.0.0-dev'
 
 [dependencies.pallet-nicks]
 default-features = false
@@ -171,7 +174,7 @@ version = '3.0.0'
 default-features = false
 git = 'https://github.com/paritytech/substrate.git'
 tag = 'monthly-2021-07'
-version = '3.1.0'
+version = '3.0.0'
 
 [dependencies.pallet-randomness-collective-flip]
 default-features = false
