@@ -25,6 +25,18 @@ jsonrpc-core = '15.1.0'
 structopt = '0.3.8'
 bs58 = "0.4.0"
 
+[dependencies.pallet-evm]
+default-features = false
+path = '../pallets/evm'
+
+[dependencies.pallet-dynamic-fee]
+default-features = false
+path = '../pallets/dynamic-fee'
+
+[dependencies.pallet-ethereum]
+default-features = false
+path = '../pallets/ethereum'
+
 [dependencies.pallet-contracts]
 git = 'https://github.com/paritytech/substrate.git'
 tag = 'monthly-2021-07'
@@ -181,6 +193,10 @@ version = '3.0.0'
 git = 'https://github.com/paritytech/substrate.git'
 tag = 'monthly-2021-07'
 version = '3.0.0'
+
+[dependencies.fc-consensus]
+git = 'https://github.com/paritytech/frontier.git'
+version = '2.0.0'
 
 [[bin]]
 name = 'node-template'

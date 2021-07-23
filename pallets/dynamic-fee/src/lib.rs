@@ -22,7 +22,7 @@ use codec::{Encode, Decode};
 use sp_std::{cmp::{min, max}};
 use sp_runtime::RuntimeDebug;
 use sp_core::U256;
-use sp_inherents::{InherentIdentifier, IsFatalError};
+use sp_inherents::{InherentIdentifier, IsFatalError, InherentData};
 //#[cfg(feature = "std")]
 //use sp_inherents::CheckInherentsResult;
 use frame_support::{
@@ -110,10 +110,10 @@ pub const INHERENT_IDENTIFIER: InherentIdentifier = *b"dynfee0_";
 
 pub type InherentType = U256;
 
-#[cfg(feature = "std")]
+/*#[cfg(feature = "std")]
 pub struct InherentDataProvider(pub InherentType);
 
-/*#[async_trait::async_trait]
+#[async_trait::async_trait]
 impl sp_inherents::InherentDataProvider for InherentDataProvider {
 	fn provide_inherent_data(
 		&self,
@@ -122,13 +122,12 @@ impl sp_inherents::InherentDataProvider for InherentDataProvider {
 		inherent_data.put_data(INHERENT_IDENTIFIER, &self.0)
 	}
 
-	async fn try_handle_error(&self, _: &InherentIdentifier, error: &[u8]) -> Option<Result<(), Error>> {
-		Some(Err(Error::Application(Box::from(format!("{:?}", error)))))
-		//InherentError::try_from(&INHERENT_IDENTIFIER, error).map(|e| format!("{:?}", e))
+	async fn try_handle_error(&self, _: &InherentIdentifier, error: &[u8]) -> Option<Result<(), sp_inherents::Error>> {
+		Some(Err(sp_inherents::Error::Application(Box::from(format!("{:?}", error)))))
 	}
 }
 
-impl<T: Config> CheckInherentsResult for Pallet<T> {
+impl<T: Config> ProvideInherent for Pallet<T> {
 	type Call = Call<T>;
 	type Error = InherentError;
 	const INHERENT_IDENTIFIER: InherentIdentifier = INHERENT_IDENTIFIER;

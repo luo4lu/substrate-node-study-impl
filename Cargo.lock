@@ -3864,6 +3864,9 @@ dependencies = [
  "node-template-runtime",
  "pallet-contracts",
  "pallet-contracts-rpc",
+ "pallet-dynamic-fee",
+ "pallet-ethereum",
+ "pallet-evm",
  "pallet-transaction-payment-rpc",
  "sc-basic-authorship",
  "sc-cli",
@@ -3898,6 +3901,8 @@ dependencies = [
 name = "node-template-runtime"
 version = "3.0.0"
 dependencies = [
+ "async-trait",
+ "fp-rpc",
  "frame-benchmarking",
  "frame-executive",
  "frame-support",

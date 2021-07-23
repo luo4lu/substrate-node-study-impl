@@ -52,6 +52,7 @@ std = [
     'pallet-evm/std',
     'pallet-dynamic-fee/std',
     'pallet-ethereum/std',
+    'fp-rpc/std',
     'sp-api/std',
     'sp-block-builder/std',
     'sp-consensus-aura/std',
@@ -63,6 +64,7 @@ std = [
     'sp-std/std',
     'sp-transaction-pool/std',
     'sp-version/std',
+    'async-trait',
 ]
 [dependencies.codec]
 default-features = false
@@ -283,3 +285,12 @@ default-features = false
 git = 'https://github.com/paritytech/substrate.git'
 tag = 'monthly-2021-07'
 version = '3.0.0'
+
+[dependencies.fp-rpc]
+default-features = false
+path = '../primitives/rpc'
+version = '2.1.0'
+
+[dependencies.async-trait]
+optional = true
+version = '0.1.30'
