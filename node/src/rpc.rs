@@ -7,14 +7,17 @@
 
 use std::sync::Arc;
 
-use node_template_runtime::{opaque::Block, AccountId, Balance, BlockNumber, Hash, Index};
+use node_template_runtime::{opaque::Block, AccountId, Balance, BlockNumber, Hash, Index, TransactionConverter};
 use pallet_contracts_rpc::{Contracts, ContractsApi};
 pub use sc_rpc_api::DenyUnsafe;
 use sp_api::ProvideRuntimeApi;
 use sp_block_builder::BlockBuilder;
 use sp_blockchain::{Error as BlockChainError, HeaderBackend, HeaderMetadata};
 use sp_transaction_pool::TransactionPool;
-
+use sc_client_api::{
+    backend::{StorageProvider, Backend, StateBackend, AuxStore},client::BlockchainEvents
+};
+use sp_runtime::traits::BlakeTwo256;
 /// Full client dependencies.
 pub struct FullDeps<C, P> {
     /// The client instance to use.

@@ -14,7 +14,7 @@ use sp_consensus_aura::sr25519::AuthorityPair as AuraPair;
 use std::{sync::Arc, time::Duration};
 //use sc_consensus_manual_seal::{self as manual_seal};
 use fc_consensus::FrontierBlockImport;
-use sc_cli::SubstrateCli;
+//use sc_cli::SubstrateCli;
 //use crate::cli::Sealing;
 
 // Our native executor instance.
@@ -57,13 +57,12 @@ pub fn new_partial(
         sp_consensus::DefaultImportQueue<Block, FullClient>,
         sc_transaction_pool::FullPool<Block, FullClient>,
         (
-            FrontierBlockImport<Block, Arc<FullClient>, FullClient>,
-            sc_finality_grandpa::GrandpaBlockImport<
+            FrontierBlockImport<Block, sc_finality_grandpa::GrandpaBlockImport<
                 FullBackend,
                 Block,
                 FullClient,
                 FullSelectChain,
-            >,
+            >, FullClient>,
             sc_finality_grandpa::LinkHalf<Block, FullClient, FullSelectChain>,
             Arc<fc_db::Backend<Block>>,
             Option<Telemetry>,
@@ -117,13 +116,13 @@ pub fn new_partial(
         telemetry.as_ref().map(|x| x.handle()),
     )?;
 
-    let frontier_backend = open_frontier_backend(config)?;
-    let frontier_block_import = FrontierBlockImport::new(client.clone(), client.clone(), frontier_backend.clone());
+    let _frontier_backend = open_frontier_backend(config)?;
+    let frontier_block_import = FrontierBlockImport::new(grandpa_block_import.clone(), client.clone(), _frontier_backend.clone());
     let slot_duration = sc_consensus_aura::slot_duration(&*client)?.slot_duration();
 
     let import_queue =
         sc_consensus_aura::import_queue::<AuraPair, _, _, _, _, _, _>(ImportQueueParams {
-            block_import: grandpa_block_import.clone(),
+            block_import: frontier_block_import.clone(),
             justification_import: Some(Box::new(grandpa_block_import.clone())),
             client: client.clone(),
             create_inherent_data_providers: move |_, ()| async move {
@@ -154,7 +153,7 @@ pub fn new_partial(
         keystore_container,
         select_chain,
         transaction_pool,
-        other: (frontier_block_import,grandpa_block_import, grandpa_link, frontier_backend, telemetry),
+        other: (frontier_block_import, grandpa_link, _frontier_backend, telemetry),
     })
 }
 
@@ -175,7 +174,7 @@ pub fn new_full(mut config: Configuration) -> Result<TaskManager, ServiceError> 
         mut keystore_container,
         select_chain,
         transaction_pool,
-        other: (frontier_block_import, block_import, grandpa_link, frontier_backend, mut telemetry),
+        other: (block_import, grandpa_link, _frontier_backend, mut telemetry),
     } = new_partial(&config)?;
 
     if let Some(url) = &config.keystore_remote {

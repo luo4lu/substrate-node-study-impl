@@ -4037,6 +4037,8 @@ dependencies = [
  "bs58",
  "fc-consensus",
  "fc-db",
+ "fc-rpc",
+ "fp-rpc",
  "frame-benchmarking",
  "frame-benchmarking-cli",
  "jsonrpc-core 15.1.0",

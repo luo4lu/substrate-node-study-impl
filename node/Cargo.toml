@@ -206,5 +206,13 @@ version = '2.0.0'
 path = '../client/db'
 version = '1.0.0'
 
+[dependencies.fc-rpc]
+path = '../client/rpc'
+version = '2.0.0-dev'
+
+[dependencies.fp-rpc]
+path = '../primitives/rpc'
+version = '2.1.0'
+
 [[bin]]
 name = 'node-template'

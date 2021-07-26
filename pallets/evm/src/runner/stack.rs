@@ -86,7 +86,7 @@ impl<T: Config> Runner<T> {
 		}
 
 		// Deduct fee from the `source` account.
-		let fee = T::OnChargeTransaction::withdraw_fee(&source, total_fee)?;
+		let _fee = T::OnChargeTransaction::withdraw_fee(&source, total_fee)?;
 
 		// Execute the EVM call.
 		let (reason, retv) = f(&mut executor);
