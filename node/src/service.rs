@@ -1,5 +1,6 @@
 //! Service and ServiceFactory implementation. Specialized wrapper over substrate service.
 
+use std::collections::HashMap;
 use node_template_runtime::{self, opaque::Block, RuntimeApi};
 use sc_client_api::{ExecutorProvider, RemoteBackend};
 use sc_consensus_aura::{ImportQueueParams, SlotProportion, StartAuraParams};
@@ -11,9 +12,10 @@ use sc_service::{error::Error as ServiceError, Configuration, TaskManager, BaseP
 use sc_telemetry::{Telemetry, TelemetryWorker};
 use sp_consensus::SlotData;
 use sp_consensus_aura::sr25519::AuthorityPair as AuraPair;
-use std::{sync::Arc, time::Duration};
+use std::{sync::{Arc, Mutex}, time::Duration};
 //use sc_consensus_manual_seal::{self as manual_seal};
 use fc_consensus::FrontierBlockImport;
+use fc_rpc_core::types::{PendingTransactions};
 //use sc_cli::SubstrateCli;
 //use crate::cli::Sealing;
 
@@ -63,6 +65,7 @@ pub fn new_partial(
                 FullClient,
                 FullSelectChain,
             >, FullClient>,
+            PendingTransactions,
             sc_finality_grandpa::LinkHalf<Block, FullClient, FullSelectChain>,
             Arc<fc_db::Backend<Block>>,
             Option<Telemetry>,
@@ -116,6 +119,8 @@ pub fn new_partial(
         telemetry.as_ref().map(|x| x.handle()),
     )?;
 
+    let pending_transactions: PendingTransactions =
+            Some(Arc::new(Mutex::new(HashMap::new())));
     let _frontier_backend = open_frontier_backend(config)?;
     let frontier_block_import = FrontierBlockImport::new(grandpa_block_import.clone(), client.clone(), _frontier_backend.clone());
     let slot_duration = sc_consensus_aura::slot_duration(&*client)?.slot_duration();
@@ -153,7 +158,7 @@ pub fn new_partial(
         keystore_container,
         select_chain,
         transaction_pool,
-        other: (frontier_block_import, grandpa_link, _frontier_backend, telemetry),
+        other: (frontier_block_import,pending_transactions, grandpa_link, _frontier_backend, telemetry),
     })
 }
 
@@ -174,8 +179,10 @@ pub fn new_full(mut config: Configuration) -> Result<TaskManager, ServiceError> 
         mut keystore_container,
         select_chain,
         transaction_pool,
-        other: (block_import, grandpa_link, _frontier_backend, mut telemetry),
+        other: (block_import,pending_transactions, grandpa_link, _frontier_backend, mut telemetry),
     } = new_partial(&config)?;
+
+    let enable_dev_signer = true;
 
     if let Some(url) = &config.keystore_remote {
         match remote_keystore(url) {
@@ -224,12 +231,21 @@ pub fn new_full(mut config: Configuration) -> Result<TaskManager, ServiceError> 
     let rpc_extensions_builder = {
         let client = client.clone();
         let pool = transaction_pool.clone();
-
+        let network = network.clone();
+        let is_authority = role.is_authority();
+        let max_past_logs: u32 = 200;
+        let pending = pending_transactions.clone();
         Box::new(move |deny_unsafe, _| {
             let deps = crate::rpc::FullDeps {
                 client: client.clone(),
                 pool: pool.clone(),
                 deny_unsafe,
+                is_authority,
+                enable_dev_signer,
+                network: network.clone(),
+                pending_transactions: pending.clone(),
+                backend: _frontier_backend.clone(),
+                max_past_logs
             };
 
             crate::rpc::create_full(deps)

@@ -42,7 +42,7 @@ use pallet_contracts::{weights::WeightInfo, Schedule};
 pub use pallet_timestamp::Call as TimestampCall;
 use pallet_transaction_payment::CurrencyAdapter;
 use pallet_evm::{
-    Account as EVMAccount, FeeCalculator, HashedAddressMapping, EnsureAddressTruncated, Runner,
+    /*Account as EVMAccount, FeeCalculator, HashedAddressMapping, EnsureAddressTruncated,*/ Runner,
 };
 use fp_rpc::TransactionStatus;
 use pallet_ethereum::{Transaction as EthereumTransaction, Call::transact};

@@ -133,6 +133,11 @@ git = 'https://github.com/paritytech/substrate.git'
 tag = 'monthly-2021-07'
 version = '3.0.0'
 
+[dependencies.sc-network]
+git = 'https://github.com/paritytech/substrate.git'
+tag = 'monthly-2021-07'
+version = '0.9.0'
+
 [dependencies.sp-api]
 git = 'https://github.com/paritytech/substrate.git'
 tag = 'monthly-2021-07'
@@ -209,6 +214,10 @@ version = '1.0.0'
 [dependencies.fc-rpc]
 path = '../client/rpc'
 version = '2.0.0-dev'
+
+[dependencies.fc-rpc-core]
+path = '../client/rpc-core'
+version = '1.1.0-dev'
 
 [dependencies.fp-rpc]
 path = '../primitives/rpc'
